@@ -36,8 +36,7 @@ async def on_message(message):
 
     if message.content.lower().startswith('$teste'):
         await message.channel.send('Hello!')
-<<<<<<< HEAD
-    
+  
     if message.content.lower().startswith('$tiago'):
         await message.channel.send('One of my creators!')
     
@@ -51,7 +50,5 @@ async def on_message(message):
 
 # ALERT --> THIS TOKEN CANNOT BE SHARE!!!
 client.run('NTI1NTE1NzI1NTcwNTcyMzU4.XnpK4A.omnlE_0Zq6V24sy5to_WF2fEiXo')
-=======
 
 client.run('')
->>>>>>> refs/remotes/origin/master
