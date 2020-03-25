@@ -23,7 +23,7 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-    print('\033[31m{0.user} is OnLine!\033[0m'.format(client))
+    print('\033[93m{0.user} is OnLine!\033[0m'.format(client))
     print(client.user.name)
     print(client.user.id)
 
