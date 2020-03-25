@@ -8,6 +8,9 @@ import random
 as no errors or warnings will be output if it is not set up. '''
 import logging
 
+# import global var with the bot token
+from authtoken import *
+
 # log config section
 # ------------------------------------------------------------------------------------------
 logging.basicConfig(level=logging.INFO)
@@ -46,9 +49,29 @@ async def on_message(message):
         if coin == 1:
             await message.add_reaction('🙂')
         elif coin == 2:
-            await message.add_reaction('👑') 
+            await message.add_reaction('👑')
+
+    if message.content.lower().startswith('$roles'):
+        table = discord.Embed(
+                title="Choose your role",
+                color=0xB8AFEE,
+                description= "- Céu = 🌈\n"
+                             "- Nuvem = ☁️\n"
+                             "- Trovão = ⚡\n"
+                             "- Tempestade = 🌩\n"
+                             "- Nevoa = 🌫️\n"
+                             "- Chuva = 🌧️\n"
+                             "- Sol = ☀️\n" )
+        botmsg = await message.channel.send(embed=table)
+
+        # reactions to the bot message
+        await botmsg.add_reaction('🌈')
+        await botmsg.add_reaction('☁️')
+        await botmsg.add_reaction('⚡')
+        await botmsg.add_reaction('🌩')
+        await botmsg.add_reaction('🌫️')
+        await botmsg.add_reaction('🌧️')
+        await botmsg.add_reaction('☀️') 
 
 # ALERT --> THIS TOKEN CANNOT BE SHARE!!!
-client.run('NTI1NTE1NzI1NTcwNTcyMzU4.XnpK4A.omnlE_0Zq6V24sy5to_WF2fEiXo')
-
-client.run('')
+client.run(GHOST_BOT_TOKEN)
