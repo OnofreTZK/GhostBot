@@ -50,7 +50,7 @@ async def on_message(message):
             await message.add_reaction('🙂')
         elif coin == 2:
             await message.add_reaction('👑')
-'''
+
     if message.content.lower().startswith('$roles'):
         table = discord.Embed(
                 title="Choose your role",
@@ -64,13 +64,14 @@ async def on_message(message):
                              "- Sol = ☀️\n" )
         botmsg = await message.channel.send(embed=table)
 
-        await message.add_reaction(botmsg,' 🌈')
-        await message.add_reaction(botmsg, '☁️')
-        await message.add_reaction(botmsg, '⚡')
-        await message.add_reaction(botmsg, '🌩')
-        await message.add_reaction(botmsg, '🌫️')
-        await message.add_reaction(botmsg, '🌧️')
-        await message.add_reaction(botmsg, '☀️') '''
+        # reactions to the bot message
+        await botmsg.add_reaction('🌈')
+        await botmsg.add_reaction('☁️')
+        await botmsg.add_reaction('⚡')
+        await botmsg.add_reaction('🌩')
+        await botmsg.add_reaction('🌫️')
+        await botmsg.add_reaction('🌧️')
+        await botmsg.add_reaction('☀️') 
 
 # ALERT --> THIS TOKEN CANNOT BE SHARE!!!
 client.run(GHOST_BOT_TOKEN)
