@@ -1,3 +1,4 @@
 *.swp
 /ghost
 *.log
+/__pycache__
