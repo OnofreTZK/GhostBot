@@ -20,6 +20,9 @@ async def on_message(message):
 
 	if message.content.lower().startswith('$victor'):
 		await message.channel.send('Ainda nao fez nada.')
+
+	if message.content.lower().startswith('$pedrossauro'):
+		await message.channel.send('Ligando pra policia...')
     
     if message.content.lower().startswith('$roll_coin'):
         #if message.author.id == "id":
