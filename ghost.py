@@ -17,6 +17,9 @@ async def on_message(message):
   
     if message.content.lower().startswith('$tiago'):
         await message.channel.send('One of my creators!')
+
+	if message.content.lower().startswith('$victor'):
+		await message.channel.send('Ainda nao fez nada.')
     
     if message.content.lower().startswith('$roll_coin'):
         #if message.author.id == "id":
