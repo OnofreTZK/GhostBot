@@ -38,6 +38,11 @@ async def on_message(message):
         await message.channel.send('https://www.youtube.com/watch?v=xrUQrSDF3XY')
     #---------------------------------------------------------------------------------------------
     
+    #---------------------------------------------------------------------------------------------
+    if message.content.lower().startswith('$triputo'): 
+        await message.channel.send('https://www.youtube.com/watch?v=mMoF5WuBrkI')
+    #---------------------------------------------------------------------------------------------
+    
     # $roll_coin ( heads or tails || cara ou coroa )
     #---------------------------------------------------------------------------------------------
     if message.content.lower().startswith('$roll_coin'):
@@ -49,6 +54,7 @@ async def on_message(message):
             await message.add_reaction('👑')
     #---------------------------------------------------------------------------------------------
 
+    # $roles ( minimal role manager )
     #---------------------------------------------------------------------------------------------
     if message.content.lower().startswith('$roles'):
         table = discord.Embed(
