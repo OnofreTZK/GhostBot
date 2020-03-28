@@ -1,6 +1,7 @@
 # Main module --> discord API
 import discord
 
+from .manager import *
 
 ''' It is strongly recommended that the logging module is configured, 
 as no errors or warnings will be output if it is not set up. '''
@@ -17,6 +18,8 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 # ------------------------------------------------------------------------------------------
 
+
+StateManager = Manager()
 
 # instantianting the client --> our connection to discord.
 client = discord.Client()
