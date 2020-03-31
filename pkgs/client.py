@@ -29,3 +29,4 @@ async def on_ready():
     print('\033[93m{0.user} is OnLine!\033[0m'.format(client))
     print(client.user.name)
     print(client.user.id)
+    StateManager.set_phrases()
