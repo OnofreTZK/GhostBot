@@ -6,6 +6,7 @@ class Manager(object):
 
          self.msg_id =''
          self.user_id =''
+         self.phrase = []
 
     #}}}
 
@@ -32,5 +33,26 @@ class Manager(object):
         return self.user_id
 
     #}}}
+
+     def set_phrases( self ): #{{{
+
+        # Opening file
+        try:
+            _phrases_ = open('phrase_data.dat', "r")
+
+        except IOError:
+
+            print('Unable to open file! check again.')
+
+
+        self.phrase = _phrases_.readlines()
+
+    #}}}
+
+     def get_phrases( self ): #{{{
+
+         return self.phrase
+
+     #}}}
 
 
