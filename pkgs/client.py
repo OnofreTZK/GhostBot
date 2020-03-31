@@ -1,6 +1,7 @@
 # Main module --> discord API
 import discord
 
+from .manager import *
 
 ''' It is strongly recommended that the logging module is configured, 
 as no errors or warnings will be output if it is not set up. '''
@@ -18,6 +19,8 @@ logger.addHandler(handler)
 # ------------------------------------------------------------------------------------------
 
 
+StateManager = Manager()
+
 # instantianting the client --> our connection to discord.
 client = discord.Client()
 
@@ -26,3 +29,4 @@ async def on_ready():
     print('\033[93m{0.user} is OnLine!\033[0m'.format(client))
     print(client.user.name)
     print(client.user.id)
+    StateManager.set_phrases()
