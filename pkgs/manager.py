@@ -7,6 +7,7 @@ class Manager(object):
          self.msg_id =''
          self.user_id =''
          self.phrase = []
+         self.token = ''
 
     #}}}
 
@@ -56,3 +57,18 @@ class Manager(object):
      #}}}
 
 
+     def set_token( self, filepath ): #{{{
+
+        # Opening file
+        try:
+            _token_ = open(filepath, "r")
+
+        except IOError:
+
+            print('Unable to open file! check again.')
+
+
+        self.token = _token_.readline()
+
+        return str(self.token)
+    #}}}

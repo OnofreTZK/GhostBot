@@ -1,1 +1,5 @@
-GHOST_BOT_TOKEN = 'NTI1NTE1NzI1NTcwNTcyMzU4.XnpK4A.omnlE_0Zq6V24sy5to_WF2fEiXo'
+from .client import *
+
+filepath = 'tokendat.dat'
+
+GHOST_BOT_TOKEN = StateManager.set_token(filepath)

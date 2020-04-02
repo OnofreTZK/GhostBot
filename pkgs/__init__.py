@@ -3,3 +3,4 @@ from .client import *
 from .manager import *
 from .message import *
 from .reaction import *
+from .member import *
