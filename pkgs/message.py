@@ -84,5 +84,25 @@ async def on_message(message):
         #global user_id 
         #user_id = message.author.id
         StateManager.set_user_id(message.author.id)
-        # ----------------------------------------------------
+    #----------------------------------------------------
+
+ 
+    # $ghost_in
+    #---------------------------------------------------------------------------------------------
+    if message.content.lower().startswith('$ghost_in'):
+        try:
+            
+            target = message.author.voice.channel # member->voicestate->channel
+            StateManager.create_voice_client(await target.connect()) # this VoiceChannel method returns a Voice Client
+        
+        except AttributeError:
+            
+            await message.channel.send('Entre em um canal de voz carai')
+
+    #---------------------------------------------------------------------------------------------
+    
+    # $ghost_out
+    #---------------------------------------------------------------------------------------------
+    if message.content.lower().startswith('$ghost_out'):
+        await StateManager.quit_voice_client().disconnect()
     #---------------------------------------------------------------------------------------------
