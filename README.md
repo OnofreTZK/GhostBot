@@ -7,15 +7,13 @@
 
 ### TODO list
 - [ ] commands
-     * - [ ] play music
+     * - [x] play music
      * - [ ] stop music
      * - [ ] russian roulette
      * - [ ] roll number( dice )
      * - [ ] kick user
      * - [ ] ban user
-- [ ] youtube module ( searching )
-- [ ] spotify module
-- [ ] telegram module
+- [x] youtube module ( searching )
 - [ ] web socket 
 - [ ] web scrapping
 
