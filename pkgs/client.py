@@ -1,6 +1,3 @@
-# Main module --> discord API
-import discord
-
 from .manager import *
 
 ''' It is strongly recommended that the logging module is configured, 
@@ -10,20 +7,19 @@ import logging
 
 # log config section
 # ------------------------------------------------------------------------------------------
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger('discord')
-logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
+#logging.basicConfig(level=logging.INFO)
+#logger = logging.getLogger('discord')
+#logger.setLevel(logging.DEBUG)
+#handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+#handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+#logger.addHandler(handler)
 # ------------------------------------------------------------------------------------------
 
-
+# State Manager --> the 'brain'
 StateManager = Manager()
 
 # instantianting the client --> our connection to discord.
 client = discord.Client()
-
 
 @client.event
 async def on_ready():

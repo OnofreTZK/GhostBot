@@ -1,3 +1,11 @@
+from __future__ import unicode_literals
+
+# Main module --> discord API
+import discord
+import youtube_dl
+import ffmpeg
+import os
+import glob
 
 class Manager(object):
 
@@ -5,11 +13,22 @@ class Manager(object):
 #----------------------------------------------------------------------------------------------
      def __init__( self ): #{{{
 
-         self.msg_id =''
+         self.msg_id ='' 
          self.user_id =''
-         self.phrase = []
-         self.token = ''
-         self.voice = ()
+         self.phrase = [] # list of phrases
+         self.token = '' # token string
+         self.voice = discord.VoiceClient # voice client
+         self.player = youtube_dl # youtubedl player
+         self.ydl_opt = {
+                        'format': 'bestaudio/best',
+                        'postprocessors': [{
+                                            'key': 'FFmpegExtractAudio',
+                                            'preferredcodec': 'opus',
+                                            'preferredquality': '192',
+                                           }],
+                        }
+         self.source = discord.AudioSource # discord audio source
+         self.opus_file = object  # opus file downloaded
 
     #}}}
 #----------------------------------------------------------------------------------------------
@@ -93,9 +112,33 @@ class Manager(object):
 
     #}}}
      
-     def quit_voice_client( self ): #{{{
+     def get_voice_client( self ): #{{{
         
          return self.voice
+
+    #}}}
+#----------------------------------------------------------------------------------------------
+
+
+# audo player control
+#----------------------------------------------------------------------------------------------
+     def play( self, url ): #{{{
+       
+         # download opus file
+         with self.player.YoutubeDL(self.ydl_opt) as ydl:
+            ydl.download([url])
+
+         # searching opus filename
+         os.chdir("./")
+         for file in glob.glob('*.opus'):
+             self.opus_file = str(file)
+
+         # FFmpegOpusAudio instance with opus file
+         sourceaudio = discord.FFmpegOpusAudio(self.opus_file)
+
+         # returns the AudioSource
+         return sourceaudio
+         
 
     #}}}
 #----------------------------------------------------------------------------------------------

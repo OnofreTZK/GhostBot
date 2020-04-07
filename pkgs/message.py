@@ -89,7 +89,7 @@ async def on_message(message):
  
     # $ghost_in
     #---------------------------------------------------------------------------------------------
-    if message.content.lower().startswith('$ghost_in'):
+    if message.content.lower().startswith('$join'):
         try:
             
             target = message.author.voice.channel # member->voicestate->channel
@@ -99,10 +99,17 @@ async def on_message(message):
             
             await message.channel.send('Entre em um canal de voz carai')
 
+        # creating an AudioSource with FFmpegOpusAudio
+        ffmpeg_source = StateManager.play(message.content.split()[-1])
+         
+        # playing source in voice client
+        StateManager.get_voice_client().play(ffmpeg_source)
+
+
     #---------------------------------------------------------------------------------------------
     
     # $ghost_out
     #---------------------------------------------------------------------------------------------
-    if message.content.lower().startswith('$ghost_out'):
-        await StateManager.quit_voice_client().disconnect()
+    if message.content.lower().startswith('$stop'):
+       await  StateManager.get_voice_client().disconnect()
     #---------------------------------------------------------------------------------------------
