@@ -90,26 +90,40 @@ async def on_message(message):
     # $ghost_in
     #---------------------------------------------------------------------------------------------
     if message.content.lower().startswith('$join'):
-        try:
-            
-            target = message.author.voice.channel # member->voicestate->channel
-            StateManager.create_voice_client(await target.connect()) # this VoiceChannel method returns a Voice Client
         
-        except AttributeError:
-            
-            await message.channel.send('Entre em um canal de voz carai')
+        if StateManager.voice_status():
+            table = discord.Embed(
+                    title="Estou conectado e/ou tocando algo!",
+                    color=0xB8AFEE,
+                    description= "$add <url> - adicionar música na fila\n"
+                                 "$skip - pular a música atual\n"
+                                 "$pause - pausar a música atual\n"
+                                 "$stop - parar de tocar\n" )
+            await message.channel.send(embed=table)
+        else:
 
-        # creating an AudioSource with FFmpegOpusAudio
-        ffmpeg_source = StateManager.play(message.content.split()[-1])
+            try: 
+                target = message.author.voice.channel # member->voicestate->channel
+                StateManager.create_voice_client(await target.connect()) # this VoiceChannel method returns a Voice Client
+                # creating an AudioSource with FFmpegOpusAudio
+                ffmpeg_source = StateManager.generate_source(message.content.split()[-1])
          
-        # playing source in voice client
-        StateManager.get_voice_client().play(ffmpeg_source)
-
+                # playing source in voice client
+                StateManager.get_voice_client().play(ffmpeg_source)
+        
+            except AttributeError:
+            
+                await message.channel.send('Entre em um canal de voz carai')
 
     #---------------------------------------------------------------------------------------------
-    
+
+    # $add
+    #---------------------------------------------------------------------------------------------
+    #if message.content.lower()startswith('$add)
+
     # $ghost_out
     #---------------------------------------------------------------------------------------------
     if message.content.lower().startswith('$stop'):
        await  StateManager.get_voice_client().disconnect()
+       StateManager.clear_queue()
     #---------------------------------------------------------------------------------------------
