@@ -32,7 +32,7 @@ class Manager(object):
                         }
          self.opus_file = object  # opus file downloaded
          self.queue = SimpleQueue() # audio queue
-         self.playing = object # current file playing
+         self.playing = '' # current file playing
 
     #}}}
 #----------------------------------------------------------------------------------------------
@@ -127,25 +127,40 @@ class Manager(object):
 
 # audio player control
 #----------------------------------------------------------------------------------------------
-
+     # True --> playing, False --> no audio
      def voice_status( self ): #{{{
 
         return self.voice_panel
 
      #}}}
 
+     def valid_file( self, filename ): #{{{
+        
+         temp_queue = self.queue
+
+         while not temp_queue.empty():
+             if filename == temp.queue.get():
+                 return False
+
+         return True
+
+
+    #}}}
+
+
      def _search_opus_file_( self ): #{{{
        
          # searching opus filename
          os.chdir("./")
          for file in glob.glob('*.opus'):
-             self.opus_file = str(file)
+             if self.valid_file(str(file)):
+                self.opus_file = str(file)
 
-         print(self.opus_file)
          # enqueue filename
          self.queue.put(self.opus_file)
 
     #}}}
+     
      
      def download( self, url ): #{{{
         
@@ -155,6 +170,29 @@ class Manager(object):
 
          self._search_opus_file_()
 
+    #}}}
+     
+     def add_to_queue( self, url ): #{{{
+    
+         self.download( url )
+    #}}}
+
+
+     def next( self ): #{{{
+    
+         os.remove(self.playing)
+
+         self.playing = self.queue.get()
+
+         self.voice.source = discord.FFmpegOpusAudio(self.playing)
+
+         self.voice.play(self.voice.source)
+    #}}}
+
+
+     def queue_empty( self ): #{{{
+    
+         return self.queue.empty()
     #}}}
      
 
@@ -180,6 +218,7 @@ class Manager(object):
          os.remove(self.playing)
 
          while not self.queue.empty():
+             print('entrou mno loop')
              self.playing = self.queue.get()
              os.remove(self.playing)
          

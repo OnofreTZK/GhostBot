@@ -119,7 +119,11 @@ async def on_message(message):
 
     # $add
     #---------------------------------------------------------------------------------------------
-    #if message.content.lower()startswith('$add)
+    if message.content.lower().startswith('$add'):
+        StateManager.add_to_queue(message.content.split()[-1])
+
+        await message.channel.send('Música adicionada!')
+    #---------------------------------------------------------------------------------------------
 
     # $ghost_out
     #---------------------------------------------------------------------------------------------
