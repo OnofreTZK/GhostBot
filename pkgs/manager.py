@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
-from queue import SimpleQueue
+from collections import deque
+
 
 # Main module --> discord API
 import discord
@@ -7,6 +8,8 @@ import youtube_dl
 import ffmpeg
 import os
 import glob
+import asyncio
+import copy
 
 
 class Manager(object):
@@ -31,7 +34,7 @@ class Manager(object):
                                            }],
                         }
          self.opus_file = object  # opus file downloaded
-         self.queue = SimpleQueue() # audio queue
+         self.queue = deque() # audio queue
          self.playing = '' # current file playing
 
     #}}}
@@ -136,11 +139,16 @@ class Manager(object):
 
      def valid_file( self, filename ): #{{{
         
-         temp_queue = self.queue
+         temp_queue = self.queue.copy()
+    
+         # current auido file playing
+         if filename == self.playing:
+             return False
 
-         while not temp_queue.empty():
-             if filename == temp.queue.get():
-                 return False
+         if not len(temp_queue) == 0:
+            while not len(temp_queue) == 0:
+                if filename == temp_queue.popleft():
+                    return False
 
          return True
 
@@ -157,7 +165,7 @@ class Manager(object):
                 self.opus_file = str(file)
 
          # enqueue filename
-         self.queue.put(self.opus_file)
+         self.queue.append(self.opus_file)
 
     #}}}
      
@@ -175,24 +183,32 @@ class Manager(object):
      def add_to_queue( self, url ): #{{{
     
          self.download( url )
+
+         temp_queue = copy.deepcopy(self.queue)
+         while not len(temp_queue) == 0:
+             print(temp_queue.popleft())
     #}}}
 
 
-     def next( self ): #{{{
-    
-         os.remove(self.playing)
+     async def next( self ): #{{{
 
-         self.playing = self.queue.get()
+         if not len(self.queue) == 0 and not self.voice.is_playing():
 
-         self.voice.source = discord.FFmpegOpusAudio(self.playing)
+            os.remove(self.playing)
 
-         self.voice.play(self.voice.source)
+            self.playing = self.queue.popleft()
+
+            newSource = discord.FFmpegOpusAudio(self.playing)
+
+            self.voice.play(newSource)
+         else:
+             return
     #}}}
 
 
      def queue_empty( self ): #{{{
     
-         return self.queue.empty()
+         return len(self.queue) == 0
     #}}}
      
 
@@ -202,7 +218,7 @@ class Manager(object):
          self.download( url )
 
          # remove from queue
-         self.playing = self.queue.get()
+         self.playing = self.queue.popleft()
 
          # FFmpegOpusAudio instance with opus file
          sourceaudio = discord.FFmpegOpusAudio(self.playing)
@@ -217,13 +233,15 @@ class Manager(object):
          # The current audio is already out of the queue
          os.remove(self.playing)
 
-         while not self.queue.empty():
-             print('entrou mno loop')
-             self.playing = self.queue.get()
+         while not len(self.queue) == 0:
+             self.playing = self.queue.popleft()
              os.remove(self.playing)
+         # in case of fail in add_to_queue, remove all files downloaded 
+         os.chdir("./")
+         for file in glob.glob('*.opus'):
+             os.remove(str(file))
          
          # thid method will be called when voiceclient disconnect.
          self.voice_panel = False
-
     #}}}
 #----------------------------------------------------------------------------------------------

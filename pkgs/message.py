@@ -110,7 +110,7 @@ async def on_message(message):
          
                 # playing source in voice client
                 StateManager.get_voice_client().play(ffmpeg_source)
-        
+ 
             except AttributeError:
             
                 await message.channel.send('Entre em um canal de voz carai')

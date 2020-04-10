@@ -2,12 +2,15 @@
 from pkgs import *
 
 @client.event
-async def on_resumed():
+async def on_socket_raw_receive(msg):
+    await StateManager.next()
 
-    # make queue working
-    if not StateManager.voice_status() and not StateManager.queue_empty():
-        StateManager.next()
+@client.event
+async def on_socket_raw_send(payload):
+    await StateManager.next()
 
 # RUN
 # ALERT --> THIS TOKEN CANNOT BE SHARE!!!
 client.run(GHOST_BOT_TOKEN)
+
+
