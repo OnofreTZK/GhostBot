@@ -189,6 +189,9 @@ class Manager(object):
 
      async def next( self ): #{{{
 
+         if not self.voice_panel:
+             return
+
          if not len(self.queue) == 0 and not self.voice.is_playing():
 
             os.remove(self.playing)
@@ -219,11 +222,15 @@ class Manager(object):
      def pause( self ): #{{{
     
          self.voice.pause()
+
+         self.voice_panel = False
     #}}}
      
      def resume( self ): #{{{
     
          self.voice.resume()
+
+         self.voice_panel = True
     #}}}
      
      def queue_empty( self ): #{{{
