@@ -1,8 +1,5 @@
 from __future__ import unicode_literals
 from collections import deque
-
-
-# Main module --> discord API
 import discord
 import youtube_dl
 import ffmpeg
@@ -205,7 +202,30 @@ class Manager(object):
              return
     #}}}
 
+     def skip( self ): #{{{
+        
+        self.voice.stop()
 
+        os.remove(self.playing)
+
+        self.playing = self.queue.popleft()
+
+        newSource = discord.FFmpegOpusAudio(self.playing)
+
+        self.voice.play(newSource)
+         
+    #}}}
+
+     def pause( self ): #{{{
+    
+         self.voice.pause()
+    #}}}
+     
+     def resume( self ): #{{{
+    
+         self.voice.resume()
+    #}}}
+     
      def queue_empty( self ): #{{{
     
          return len(self.queue) == 0
@@ -233,9 +253,11 @@ class Manager(object):
          # The current audio is already out of the queue
          os.remove(self.playing)
 
+         # clear the queue
          while not len(self.queue) == 0:
              self.playing = self.queue.popleft()
              os.remove(self.playing)
+         
          # in case of fail in add_to_queue, remove all files downloaded 
          os.chdir("./")
          for file in glob.glob('*.opus'):
