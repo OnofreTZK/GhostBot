@@ -17,7 +17,7 @@ or install each one manually
 * [discord.py(DOCS)](https://discordpy.readthedocs.io/en/latest/index.html)
 * [logging](https://docs.python.org/3/library/logging.html#module-logging)
 
-### TODO list
+## TODO list
 - [ ] commands
      * - [x] send dm 
      * - [x] play music
