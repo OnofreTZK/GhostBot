@@ -24,6 +24,7 @@ class Manager(object):
          self.player = youtube_dl # youtubedl player
          self.ydl_opt = {
                         'format': 'bestaudio/best',
+                        'metadara-from-title': "%(artist)s - %(title)s",
                         'postprocessors': [{
                                             'key': 'FFmpegExtractAudio',
                                             'preferredcodec': 'opus',
@@ -190,7 +191,7 @@ class Manager(object):
      async def next( self ): #{{{
 
          if not self.voice_panel:
-             return
+             return False
 
          if not len(self.queue) == 0 and not self.voice.is_playing():
 
@@ -201,8 +202,10 @@ class Manager(object):
             newSource = discord.FFmpegOpusAudio(self.playing)
 
             self.voice.play(newSource)
+
+            return True
          else:
-             return
+            return False
     #}}}
 
      def skip( self ): #{{{
@@ -254,6 +257,20 @@ class Manager(object):
          return sourceaudio
 
     #}}}
+
+     def get_metadata( self ): #{{{
+
+         count = 0;
+         for word in self.playing.split('-'):
+             if '.opus' in word:
+                 break
+             else:
+                 count += 1
+ 
+         metadata = ''
+         return ( metadata.join(self.playing.split('-')[:count]) )
+            
+    #}}}
      
      def clear_queue( self ): #{{{
         
@@ -269,6 +286,8 @@ class Manager(object):
          os.chdir("./")
          for file in glob.glob('*.opus'):
              os.remove(str(file))
+
+         print('ALL opus files deleted')
          
          # thid method will be called when voiceclient disconnect.
          self.voice_panel = False
