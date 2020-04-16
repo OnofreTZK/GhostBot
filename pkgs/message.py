@@ -114,7 +114,7 @@ async def on_message(message):
                 # shoot
                 StateManager.get_voice_client().play(ffmpeg_source)
 
-                await random.choice(ch_members).move_to(client.get_channel(700420262721617930))
+                await random.choice(ch_members).move_to(client.get_channel(700436996169924619))
 
                 # waiting the correct moment to disconnect
                 while( StateManager.get_voice_client().is_playing() ):
