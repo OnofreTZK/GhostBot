@@ -43,7 +43,7 @@ async def on_message(message):
 
     # $roll_coin ( heads or tails || cara ou coroa )
     #---------------------------------------------------------------------------------------------
-    if message.content.lower().startswith('$roll_coin'):
+    if message.content.lower().startswith('$roll'):
         #if message.author.id == "id":
         coin = random.randint(1, 2)
         if coin == 1:
